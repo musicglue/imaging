@@ -236,7 +236,7 @@ func resizeNearest(src *image.NRGBA, width, height int) *image.NRGBA {
 func Fit(img image.Image, width, height int, filter ResampleFilter) *image.NRGBA {
 	maxW, maxH := width, height
 
-	if maxW <= 0 || maxH <= 0 {
+	if maxW < 0 || maxH < 0 || (maxW == 0 && maxH == 0) {
 		return &image.NRGBA{}
 	}
 
@@ -253,7 +253,15 @@ func Fit(img image.Image, width, height int, filter ResampleFilter) *image.NRGBA
 	}
 
 	srcAspectRatio := float64(srcW) / float64(srcH)
-	maxAspectRatio := float64(maxW) / float64(maxH)
+	var maxAspectRatio float64
+	switch {
+	case maxW == 0:
+		maxAspectRatio = float64(maxH) * srcAspectRatio
+	case maxH == 0:
+		maxAspectRatio = float64(maxW) / srcAspectRatio
+	default:
+		maxAspectRatio = float64(maxW) / float64(maxH)
+	}
 
 	var newW, newH int
 	if srcAspectRatio > maxAspectRatio {
