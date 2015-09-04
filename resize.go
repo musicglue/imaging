@@ -258,10 +258,10 @@ func Fit(img image.Image, width, height int, filter ResampleFilter) *image.NRGBA
 	var maxAspectRatio float64
 	switch {
 	case maxW == 0:
-		maxW = float64(maxH) * srcAspectRatio
+		maxW = int(float64(maxH) * srcAspectRatio)
 		maxAspectRatio = srcAspectRatio
 	case maxH == 0:
-		maxH = float64(maxW) / srcAspectRatio
+		maxH = int(float64(maxW) / srcAspectRatio)
 		maxAspectRatio = srcAspectRatio
 	default:
 		maxAspectRatio = float64(maxW) / float64(maxH)
