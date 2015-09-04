@@ -248,7 +248,9 @@ func Fit(img image.Image, width, height int, filter ResampleFilter) *image.NRGBA
 		return &image.NRGBA{}
 	}
 
-	if srcW <= maxW && srcH <= maxH {
+	if (srcW <= maxW && srcH <= maxH) ||
+		(srcH <= maxH && maxW == 0) ||
+		(srcW <= maxW && maxH == 0) {
 		return Clone(img)
 	}
 
