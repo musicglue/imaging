@@ -276,6 +276,14 @@ func Fit(img image.Image, width, height int, filter ResampleFilter) *image.NRGBA
 		newW = int(float64(newH) * srcAspectRatio)
 	}
 
+	if newH < 1 {
+		newH = 1
+	}
+
+	if newW < 1 {
+		newW = 1
+	}
+
 	return Resize(img, newW, newH, filter)
 }
 
